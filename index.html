@@ -27,7 +27,9 @@
         <p class="text-sm text-slate-400">Turn research, meetings and long docs into action.</p>
       </div>
     </div>
-    <nav class="flex items-center gap-3 text-sm">
+
+    <!-- Desktop Menu -->
+    <nav class="hidden md:flex items-center gap-3 text-sm">
       <a href="#features" class="text-slate-300 hover:text-white">Features</a>
       <a href="#demo" class="text-slate-300 hover:text-white">Demo</a>
       <a href="#workflow" class="text-slate-300 hover:text-white">Workflow</a>
@@ -35,7 +37,28 @@
       <a href="#pricing" class="text-slate-300 hover:text-white">Pricing</a>
       <a class="px-4 py-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-black font-semibold" href="#try">Try PaperPilot</a>
     </nav>
+
+    <!-- Mobile Hamburger -->
+    <div class="md:hidden flex items-center">
+      <button id="menuBtn" class="text-slate-300 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
   </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-[#0b1220] border-t border-slate-700">
+    <nav class="flex flex-col px-6 py-4 gap-3 text-sm">
+      <a href="#features" class="text-slate-300 hover:text-white">Features</a>
+      <a href="#demo" class="text-slate-300 hover:text-white">Demo</a>
+      <a href="#workflow" class="text-slate-300 hover:text-white">Workflow</a>
+      <a href="#testimonials" class="text-slate-300 hover:text-white">Testimonials</a>
+      <a href="#pricing" class="text-slate-300 hover:text-white">Pricing</a>
+      <a class="px-4 py-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-black font-semibold" href="#try">Try PaperPilot</a>
+    </nav>
+  </div>
 
   <!-- Hero -->
   <main class="max-w-6xl mx-auto px-6 pt-12">
@@ -94,6 +117,7 @@
         <p class="text-slate-300 mt-2 text-sm">Turn key sentences into exportable cards for your knowledge base or slide decks.</p>
       </div>
     </section>
+
     <!-- Workflow -->
     <section id="workflow" class="">
       <h3 class="text-2xl font-bold text-center">How it fits into your workflow</h3>
@@ -179,7 +203,6 @@
       </div>
     </section>
 
-
     <!-- Footer -->
     <footer class="mt-12 text-center text-slate-400 py-8">
       <div class="max-w-3xl mx-auto">
@@ -188,89 +211,77 @@
       </div>
     </footer>
   </main>
-    <script>
-// Simple extractive summarizer + action item extractor (demo only)
-function simpleSummarize(text, maxSentences=5){
-  if(!text) return {summary:'', bullets:[], actions:[]};
-  const sentences = text.replace(/\n/g,' ').split(/(?<=[.!?])\s+/).filter(Boolean);
-  const words = (text.toLowerCase().match(/\b[a-z]{3,}\b/g)||[]);
-  const freq = {};
-  words.forEach(w=>freq[w]=(freq[w]||0)+1);
-  const score = s=> (s.toLowerCase().match(/\b[a-z]{3,}\b/g)||[]).reduce((a,w)=>a+(freq[w]||0),0) + Math.min(8,s.split(' ').length)/2;
-  const ranked = sentences.map(s=>({s,sc:score(s)})).sort((a,b)=>b.sc-a.sc);
-  const top = ranked.slice(0,maxSentences).map(r=>r.s);
-  const actions = sentences.filter(s=>/\b(action|should|must|need to|follow up|due|deadline|owner)\b/i).slice(0,6);
-  const bullets = top.map(s=>({text:s,source: s.match(/\b[A-Z][a-z]+\b/g)?.join(' ')||'—'}));
-  return {summary: top.join(' '), bullets, actions};
-}
 
-function escapeHtml(str){
-  return str.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
-}
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
 
-// UI
-const demoInput = document.getElementById('demoInput');
-const demoOutput = document.getElementById('demoOutput');
-const summarizeBtn = document.getElementById('summarizeBtn');
-const inputText = document.getElementById('inputText');
-const summaryBox = document.getElementById('summaryBox');
-const readTime = document.getElementById('readTime');
-const copyBtn = document.getElementById('copyBtn');
-const uploadBtn = document.getElementById('uploadBtn');
-const fileInput = document.getElementById('fileInput');
-const clearBtn = document.getElementById('clearBtn');
+    // Simple extractive summarizer + action item extractor (demo only)
+    function simpleSummarize(text, maxSentences=5){
+      if(!text) return {summary:'', bullets:[], actions:[]};
+      const sentences = text.replace(/\n/g,' ').split(/(?<=[.!?])\s+/).filter(Boolean);
+      const words = (text.toLowerCase().match(/\b[a-z]{3,}\b/g)||[]);
+      const freq = {};
+      words.forEach(w=>freq[w]=(freq[w]||0)+1);
+      const score = s=> (s.toLowerCase().match(/\b[a-z]{3,}\b/g)||[]).reduce((a,w)=>a+(freq[w]||0),0) + Math.min(8,s.split(' ').length)/2;
+      const ranked = sentences.map(s=>({s,sc:score(s)})).sort((a,b)=>b.sc-a.sc);
+      const top = ranked.slice(0,maxSentences).map(r=>r.s);
+      const actions = sentences.filter(s=>/\b(action|should|must|need to|follow up|due|deadline|owner)\b/i).slice(0,6);
+      const bullets = top.map(s=>({text:s,source: s.match(/\b[A-Z][a-z]+\b/g)?.join(' ')||'—'}));
+      return {summary: top.join(' '), bullets, actions};
+    }
 
-const demoGenerate = ()=>{
-  const t = demoInput.value.trim();
-  const out = simpleSummarize(t,4);
-  demoOutput.innerHTML = '';
-  const h = document.createElement('div');
-  h.innerHTML = '<h4 class="text-lg font-semibold">TL;DR</h4><p class="text-slate-200 mt-1">'+escapeHtml(out.summary)+'</p>';
-  const ul = document.createElement('div');
-  ul.innerHTML = '<h5 class="mt-3 text-sm text-slate-300">Evidence bullets</h5>' + '<ul class="mt-1 text-sm text-slate-200">'+out.bullets.map(b=>'<li>• '+escapeHtml(b.text)+'</li>').join('')+'</ul>';
-  const act = document.createElement('div');
-  act.innerHTML = '<h5 class="mt-3 text-sm text-slate-300">Action items</h5>' + (out.actions.length? '<ul class="mt-1 text-sm text-amber-200">'+out.actions.map(a=>'<li>• '+escapeHtml(a)+'</li>').join('')+'</ul>' : '<p class="text-slate-500">No explicit actions found.</p>');
-  demoOutput.appendChild(h); demoOutput.appendChild(ul); demoOutput.appendChild(act);
-}
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+    }
 
-summarizeBtn?.addEventListener('click', ()=>{
-  const t = inputText.value.trim();
-  if(!t){ summaryBox.innerHTML = '<span class="text-slate-500">Paste some text to summarize.</span>'; return; }
-  const out = simpleSummarize(t,4);
-  summaryBox.innerHTML = '<pre class="pretty">'+escapeHtml(out.summary)+'</pre>';
-  const words = t.split(/\s+/).length;
-  const minutes = Math.ceil(words/200);
-  readTime.textContent = minutes+" min";
-});
+    const summarizeBtn = document.getElementById('summarizeBtn');
+    const inputText = document.getElementById('inputText');
+    const summaryBox = document.getElementById('summaryBox');
+    const readTime = document.getElementById('readTime');
+    const copyBtn = document.getElementById('copyBtn');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+    const clearBtn = document.getElementById('clearBtn');
 
-copyBtn?.addEventListener('click', ()=>{
-  const text = summaryBox.innerText;
-  if(text){ navigator.clipboard.writeText(text); alert('Copied to clipboard!'); }
-});
+    summarizeBtn?.addEventListener('click', ()=>{
+      const t = inputText.value.trim();
+      if(!t){ summaryBox.innerHTML = '<span class="text-slate-500">Paste some text to summarize.</span>'; return; }
+      const out = simpleSummarize(t,4);
+      summaryBox.innerHTML = '<pre class="pretty">'+escapeHtml(out.summary)+'</pre>';
+      const words = t.split(/\s+/).length;
+      const minutes = Math.ceil(words/200);
+      readTime.textContent = minutes+" min";
+    });
 
-clearBtn?.addEventListener('click', ()=>{
-  inputText.value = '';
-  summaryBox.innerHTML = '<em class="text-slate-500">Your brief will appear here.</em>';
-  readTime.textContent = '—';
-});
+    copyBtn?.addEventListener('click', ()=>{
+      const text = summaryBox.innerText;
+      if(text){ navigator.clipboard.writeText(text); alert('Copied to clipboard!'); }
+    });
 
-uploadBtn?.addEventListener('click', ()=> fileInput.click());
-fileInput?.addEventListener('change', e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = evt=>{ inputText.value = evt.target.result; };
-  reader.readAsText(file);
-});
+    clearBtn?.addEventListener('click', ()=>{
+      inputText.value = '';
+      summaryBox.innerHTML = '<em class="text-slate-500">Your brief will appear here.</em>';
+      readTime.textContent = '—';
+    });
 
-document.getElementById('notesBtn')?.addEventListener('click', ()=>{
-    alert("Available on paid plans");
-});
-document.getElementById('exportBtn')?.addEventListener('click', ()=>{ alert("Available on paid plans"); });
-demoInput?.addEventListener('input', demoGenerate);
-window.addEventListener('load', demoGenerate);
+    uploadBtn?.addEventListener('click', ()=> fileInput.click());
+    fileInput?.addEventListener('change', e=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = evt=>{ inputText.value = evt.target.result; };
+      reader.readAsText(file);
+    });
 
+    document.getElementById('notesBtn')?.addEventListener('click', ()=>{
+        alert("Available on paid plans");
+    });
+    document.getElementById('exportBtn')?.addEventListener('click', ()=>{ alert("Available on paid plans"); });
   </script>
 </body>
 </html>
-
