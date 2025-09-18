@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PaperPilot AI Research & Meeting Briefs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{--bg1:#0f172a;--card:#0b1220;--accent:#7c3aed;--muted:#94a3b8}
+    body{background:linear-gradient(180deg,var(--bg1) 0%,#071021 100%);font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    .glass{background:rgba(255,255,255,0.03);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04)}
+    .fade-in{opacity:0;transform:translateY(12px);transition:all .6s ease}
+    .fade-in.visible{opacity:1;transform:none}
+    pre.pretty{white-space:pre-wrap;word-wrap:break-word}
+    .blob{filter:blur(52px);opacity:.12}
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased">
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#7c3aed,#06b6d4);">
+        <strong class="text-black">PP</strong>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold">PaperPilot</h1>
+        <p class="text-sm text-slate-400">Turn research, meetings and long docs into action.</p>
+      </div>
+    </div>
+    <nav class="flex items-center gap-3 text-sm">
+      <a href="#features" class="text-slate-300 hover:text-white">Features</a>
+      <a href="#demo" class="text-slate-300 hover:text-white">Demo</a>
+      <a href="#workflow" class="text-slate-300 hover:text-white">Workflow</a>
+      <a href="#testimonials" class="text-slate-300 hover:text-white">Testimonials</a>
+      <a href="#pricing" class="text-slate-300 hover:text-white">Pricing</a>
+      <a class="px-4 py-2 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-black font-semibold" href="#try">Try PaperPilot</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <main class="max-w-6xl mx-auto px-6 pt-12">
+    <section class="relative overflow-hidden">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-4xl md:text-5xl font-extrabold mb-4">From long papers to short wins instantly.</h2>
+          <p class="text-slate-300 mb-6">PaperPilot creates concise research briefs, meeting-ready summaries, action items and evidence cards so your team spends less time reading and more time doing.</p>
+          <div class="flex gap-3">
+            <a href="#demo" class="px-5 py-3 rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-black font-semibold">Try Live Demo</a>
+            <a href="#features" class="px-5 py-3 rounded-lg border border-slate-700 text-slate-200">See Features</a>
+          </div>
+
+          <ul class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-slate-300">
+            <li>• AI-extracted evidence cards</li>
+            <li>• Meeting-ready TL;DR and action items</li>
+            <li>• Multimodal uploads: PDF, text, audio</li>
+            <li>• Integrations: Notion, Slack, Google Drive</li>
+          </ul>
+        </div>
+
+        <div class="glass p-6 rounded-2xl shadow-lg">
+          <label class="block text-sm text-slate-400 mb-2">Paste text, upload a file, or drop a meeting audio</label>
+          <textarea id="inputText" rows="8" class="w-full p-4 rounded-lg bg-transparent border border-slate-700 text-slate-100" placeholder="Paste an article, paste meeting transcript, or upload a PDF..."></textarea>
+          <div class="mt-4 flex gap-3 items-center">
+            <button id="summarizeBtn" class="px-4 py-2 rounded-md bg-[#7c3aed] text-black font-semibold">Generate Brief</button>
+            <input id="fileInput" type="file" accept="text/plain,.txt,.md,.pdf,.docx,.mp3,.m4a" class="hidden" />
+            <button id="uploadBtn" class="px-3 py-2 rounded-md border border-slate-700 text-slate-200">Upload</button>
+            <button id="clearBtn" class="px-3 py-2 rounded-md border border-slate-700 text-slate-200">Clear</button>
+            <div class="ml-auto text-xs text-slate-400">Est. read time: <span id="readTime">—</span></div>
+          </div>
+          <div id="summaryBox" class="mt-4 p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-slate-800 h-40 overflow-auto">
+            <em class="text-slate-500">Your brief will appear here.</em>
+          </div>
+          <div class="mt-3 flex gap-2">
+            <button id="copyBtn" class="px-3 py-1 rounded bg-slate-700 text-sm">Copy</button>
+            <button id="notesBtn" class="px-3 py-1 rounded border border-slate-700 text-sm">Create Notes</button>
+            <button id="exportBtn" class="px-3 py-1 rounded border border-slate-700 text-sm">Export</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="mt-14 grid md:grid-cols-3 gap-6">
+      <div class="glass p-6 rounded-2xl fade-in">
+        <h3 class="text-lg font-semibold">Research Briefs</h3>
+        <p class="text-slate-300 mt-2 text-sm">One-click short summary, evidence bullets with sources, and confidence scores that make reviews fast.</p>
+      </div>
+      <div class="glass p-6 rounded-2xl fade-in">
+        <h3 class="text-lg font-semibold">Meeting Assistant</h3>
+        <p class="text-slate-300 mt-2 text-sm">Upload audio or paste transcript PaperPilot extracts decisions, owners, deadlines and suggested follow-ups.</p>
+      </div>
+      <div class="glass p-6 rounded-2xl fade-in">
+        <h3 class="text-lg font-semibold">Evidence Cards</h3>
+        <p class="text-slate-300 mt-2 text-sm">Turn key sentences into exportable cards for your knowledge base or slide decks.</p>
+      </div>
+    </section>
+    <!-- Workflow -->
+    <section id="workflow" class="">
+      <h3 class="text-2xl font-bold text-center">How it fits into your workflow</h3>
+      <div class="mt-10 grid md:grid-cols-4 gap-6 text-center">
+        <div class="glass p-6 rounded-2xl">
+          <h4 class="font-semibold">1. Upload</h4>
+          <p class="text-slate-300 mt-2 text-sm">Drop in PDFs, transcripts, or notes.</p>
+        </div>
+        <div class="glass p-6 rounded-2xl">
+          <h4 class="font-semibold">2. Summarize</h4>
+          <p class="text-slate-300 mt-2 text-sm">AI extracts briefs, action items, and evidence cards.</p>
+        </div>
+        <div class="glass p-6 rounded-2xl">
+          <h4 class="font-semibold">3. Organize</h4>
+          <p class="text-slate-300 mt-2 text-sm">Sync directly with Notion, Slack, or Google Drive.</p>
+        </div>
+        <div class="glass p-6 rounded-2xl">
+          <h4 class="font-semibold">4. Act</h4>
+          <p class="text-slate-300 mt-2 text-sm">Share, assign, and move work forward faster.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="mt-20">
+      <h3 class="text-2xl font-bold text-center">Pricing</h3>
+      <p class="text-center text-slate-400 mt-2">Simple plans for individuals and teams.</p>
+      <div class="mt-10 grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div class="glass p-6 rounded-2xl text-center">
+          <h4 class="text-lg font-semibold">Free</h4>
+          <p class="text-slate-300 mt-2 text-sm">For casual readers & students</p>
+          <p class="mt-4 text-3xl font-bold">$0</p>
+          <ul class="mt-4 text-sm text-slate-300 space-y-2">
+            <li>• 10 briefs / month</li>
+            <li>• PDF & text uploads</li>
+            <li>• Copy & export</li>
+          </ul>
+          <a href="#try" class="block mt-6 px-4 py-2 rounded-md bg-[#7c3aed] text-black font-semibold">Start Free</a>
+        </div>
+        <div class="glass p-6 rounded-2xl text-center border-2 border-[#7c3aed]">
+          <h4 class="text-lg font-semibold">Pro</h4>
+          <p class="text-slate-300 mt-2 text-sm">For professionals & researchers</p>
+          <p class="mt-4 text-3xl font-bold">$12<span class="text-base text-slate-400">/mo</span></p>
+          <ul class="mt-4 text-sm text-slate-300 space-y-2">
+            <li>• Unlimited briefs</li>
+            <li>• Audio transcription</li>
+            <li>• Evidence cards export</li>
+            <li>• Notion & Slack integration</li>
+          </ul>
+          <a href="#try" class="block mt-6 px-4 py-2 rounded-md bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-black font-semibold">Upgrade</a>
+        </div>
+        <div class="glass p-6 rounded-2xl text-center">
+          <h4 class="text-lg font-semibold">Team</h4>
+          <p class="text-slate-300 mt-2 text-sm">For organizations & startups</p>
+          <p class="mt-4 text-3xl font-bold">$49<span class="text-base text-slate-400">/mo</span></p>
+          <ul class="mt-4 text-sm text-slate-300 space-y-2">
+            <li>• Everything in Pro</li>
+            <li>• Up to 10 seats</li>
+            <li>• Shared workspace</li>
+            <li>• Priority support</li>
+          </ul>
+          <a href="#try" class="block mt-6 px-4 py-2 rounded-md bg-[#06b6d4] text-black font-semibold">Get Started</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="mt-16">
+      <h3 class="text-2xl font-bold text-center">What our users say</h3>
+      <div class="mt-8 grid md:grid-cols-3 gap-6">
+        <div class="glass p-6 rounded-2xl text-sm">
+          <p>“PaperPilot saves me hours every week. I drop research PDFs and get bulletproof briefs for my reports.”</p>
+          <p class="mt-3 text-slate-400">— Alex, Research Analyst</p>
+        </div>
+        <div class="glass p-6 rounded-2xl text-sm">
+          <p>“Meeting summaries with action items have completely streamlined our team syncs.”</p>
+          <p class="mt-3 text-slate-400">— Priya, Product Manager</p>
+        </div>
+        <div class="glass p-6 rounded-2xl text-sm">
+          <p>“The Notion integration is gold — everything we need is organized automatically.”</p>
+          <p class="mt-3 text-slate-400">— Marco, Startup Founder</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="mt-12 text-center text-slate-400 py-8">
+      <div class="max-w-3xl mx-auto">
+        <p>© 2025 PaperPilot — Built for readers who prefer action.</p>
+        <p class="text-sm mt-2">Integrations: Notion • Slack • Google Drive • CSV export</p>
+      </div>
+    </footer>
+  </main>
+    <script>
+// Simple extractive summarizer + action item extractor (demo only)
+function simpleSummarize(text, maxSentences=5){
+  if(!text) return {summary:'', bullets:[], actions:[]};
+  const sentences = text.replace(/\n/g,' ').split(/(?<=[.!?])\s+/).filter(Boolean);
+  const words = (text.toLowerCase().match(/\b[a-z]{3,}\b/g)||[]);
+  const freq = {};
+  words.forEach(w=>freq[w]=(freq[w]||0)+1);
+  const score = s=> (s.toLowerCase().match(/\b[a-z]{3,}\b/g)||[]).reduce((a,w)=>a+(freq[w]||0),0) + Math.min(8,s.split(' ').length)/2;
+  const ranked = sentences.map(s=>({s,sc:score(s)})).sort((a,b)=>b.sc-a.sc);
+  const top = ranked.slice(0,maxSentences).map(r=>r.s);
+  const actions = sentences.filter(s=>/\b(action|should|must|need to|follow up|due|deadline|owner)\b/i).slice(0,6);
+  const bullets = top.map(s=>({text:s,source: s.match(/\b[A-Z][a-z]+\b/g)?.join(' ')||'—'}));
+  return {summary: top.join(' '), bullets, actions};
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+}
+
+// UI
+const demoInput = document.getElementById('demoInput');
+const demoOutput = document.getElementById('demoOutput');
+const summarizeBtn = document.getElementById('summarizeBtn');
+const inputText = document.getElementById('inputText');
+const summaryBox = document.getElementById('summaryBox');
+const readTime = document.getElementById('readTime');
+const copyBtn = document.getElementById('copyBtn');
+const uploadBtn = document.getElementById('uploadBtn');
+const fileInput = document.getElementById('fileInput');
+const clearBtn = document.getElementById('clearBtn');
+
+const demoGenerate = ()=>{
+  const t = demoInput.value.trim();
+  const out = simpleSummarize(t,4);
+  demoOutput.innerHTML = '';
+  const h = document.createElement('div');
+  h.innerHTML = '<h4 class="text-lg font-semibold">TL;DR</h4><p class="text-slate-200 mt-1">'+escapeHtml(out.summary)+'</p>';
+  const ul = document.createElement('div');
+  ul.innerHTML = '<h5 class="mt-3 text-sm text-slate-300">Evidence bullets</h5>' + '<ul class="mt-1 text-sm text-slate-200">'+out.bullets.map(b=>'<li>• '+escapeHtml(b.text)+'</li>').join('')+'</ul>';
+  const act = document.createElement('div');
+  act.innerHTML = '<h5 class="mt-3 text-sm text-slate-300">Action items</h5>' + (out.actions.length? '<ul class="mt-1 text-sm text-amber-200">'+out.actions.map(a=>'<li>• '+escapeHtml(a)+'</li>').join('')+'</ul>' : '<p class="text-slate-500">No explicit actions found.</p>');
+  demoOutput.appendChild(h); demoOutput.appendChild(ul); demoOutput.appendChild(act);
+}
+
+summarizeBtn?.addEventListener('click', ()=>{
+  const t = inputText.value.trim();
+  if(!t){ summaryBox.innerHTML = '<span class="text-slate-500">Paste some text to summarize.</span>'; return; }
+  const out = simpleSummarize(t,4);
+  summaryBox.innerHTML = '<pre class="pretty">'+escapeHtml(out.summary)+'</pre>';
+  const words = t.split(/\s+/).length;
+  const minutes = Math.ceil(words/200);
+  readTime.textContent = minutes+" min";
+});
+
+copyBtn?.addEventListener('click', ()=>{
+  const text = summaryBox.innerText;
+  if(text){ navigator.clipboard.writeText(text); alert('Copied to clipboard!'); }
+});
+
+clearBtn?.addEventListener('click', ()=>{
+  inputText.value = '';
+  summaryBox.innerHTML = '<em class="text-slate-500">Your brief will appear here.</em>';
+  readTime.textContent = '—';
+});
+
+uploadBtn?.addEventListener('click', ()=> fileInput.click());
+fileInput?.addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = evt=>{ inputText.value = evt.target.result; };
+  reader.readAsText(file);
+});
+
+document.getElementById('notesBtn')?.addEventListener('click', ()=>{
+    alert("Available on paid plans");
+});
+document.getElementById('exportBtn')?.addEventListener('click', ()=>{ alert("Available on paid plans"); });
+demoInput?.addEventListener('input', demoGenerate);
+window.addEventListener('load', demoGenerate);
+
+  </script>
+</body>
+</html>
+
