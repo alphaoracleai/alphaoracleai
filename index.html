@@ -6,18 +6,44 @@
   <title>PaperPilot AI Research & Meeting Briefs</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root{--bg1:#0f172a;--card:#0b1220;--accent:#7c3aed;--muted:#94a3b8}
-    body{background:linear-gradient(180deg,var(--bg1) 0%,#071021 100%);font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
-    .glass{background:rgba(255,255,255,0.03);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.04)}
-    .fade-in{opacity:0;transform:translateY(12px);transition:all .6s ease}
-    .fade-in.visible{opacity:1;transform:none}
-    pre.pretty{white-space:pre-wrap;word-wrap:break-word}
-    .blob{filter:blur(52px);opacity:.12}
+    :root {
+      --bg1:#0f172a;
+      --card:#0b1220;
+      --accent:#7c3aed;
+      --muted:#94a3b8;
+    }
+    body {
+      background: linear-gradient(180deg,var(--bg1) 0%,#071021 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    .glass {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all .6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+    pre.pretty {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .blob {
+      filter: blur(52px);
+      opacity: .12;
+    }
   </style>
 </head>
 <body class="min-h-screen text-slate-100 antialiased">
+
   <!-- Header -->
-  <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+  <header class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap items-center justify-between">
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#7c3aed,#06b6d4);">
         <strong class="text-black">PP</strong>
@@ -29,7 +55,7 @@
     </div>
 
     <!-- Desktop Menu -->
-    <nav class="hidden md:flex items-center gap-3 text-sm">
+    <nav class="hidden md:flex items-center gap-3 text-sm mt-4 md:mt-0">
       <a href="#features" class="text-slate-300 hover:text-white">Features</a>
       <a href="#demo" class="text-slate-300 hover:text-white">Demo</a>
       <a href="#workflow" class="text-slate-300 hover:text-white">Workflow</a>
@@ -39,7 +65,7 @@
     </nav>
 
     <!-- Mobile Hamburger -->
-    <div class="md:hidden flex items-center">
+    <div class="md:hidden flex items-center mt-4">
       <button id="menuBtn" class="text-slate-300 focus:outline-none">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -61,18 +87,18 @@
   </div>
 
   <!-- Hero -->
-  <main class="max-w-6xl mx-auto px-6 pt-12">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-12">
     <section class="relative overflow-hidden">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
-          <h2 class="text-4xl md:text-5xl font-extrabold mb-4">From long papers to short wins instantly.</h2>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">From long papers to short wins instantly.</h2>
           <p class="text-slate-300 mb-6">PaperPilot creates concise research briefs, meeting-ready summaries, action items and evidence cards so your team spends less time reading and more time doing.</p>
-          <div class="flex gap-3">
-            <a href="#demo" class="px-5 py-3 rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-black font-semibold">Try Live Demo</a>
-            <a href="#features" class="px-5 py-3 rounded-lg border border-slate-700 text-slate-200">See Features</a>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="#demo" class="px-5 py-3 rounded-lg bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] text-black font-semibold text-center">Try Live Demo</a>
+            <a href="#features" class="px-5 py-3 rounded-lg border border-slate-700 text-slate-200 text-center">See Features</a>
           </div>
 
-          <ul class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-slate-300">
+          <ul class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-300">
             <li>• AI-extracted evidence cards</li>
             <li>• Meeting-ready TL;DR and action items</li>
             <li>• Multimodal uploads: PDF, text, audio</li>
@@ -80,20 +106,20 @@
           </ul>
         </div>
 
-        <div class="glass p-6 rounded-2xl shadow-lg">
+        <div class="glass p-4 sm:p-6 rounded-2xl shadow-lg w-full">
           <label class="block text-sm text-slate-400 mb-2">Paste text, upload a file, or drop a meeting audio</label>
           <textarea id="inputText" rows="8" class="w-full p-4 rounded-lg bg-transparent border border-slate-700 text-slate-100" placeholder="Paste an article, paste meeting transcript, or upload a PDF..."></textarea>
-          <div class="mt-4 flex gap-3 items-center">
-            <button id="summarizeBtn" class="px-4 py-2 rounded-md bg-[#7c3aed] text-black font-semibold">Generate Brief</button>
+          <div class="mt-4 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <button id="summarizeBtn" class="px-4 py-2 rounded-md bg-[#7c3aed] text-black font-semibold w-full sm:w-auto">Generate Brief</button>
             <input id="fileInput" type="file" accept="text/plain,.txt,.md,.pdf,.docx,.mp3,.m4a" class="hidden" />
-            <button id="uploadBtn" class="px-3 py-2 rounded-md border border-slate-700 text-slate-200">Upload</button>
-            <button id="clearBtn" class="px-3 py-2 rounded-md border border-slate-700 text-slate-200">Clear</button>
-            <div class="ml-auto text-xs text-slate-400">Est. read time: <span id="readTime">—</span></div>
+            <button id="uploadBtn" class="px-3 py-2 rounded-md border border-slate-700 text-slate-200 w-full sm:w-auto">Upload</button>
+            <button id="clearBtn" class="px-3 py-2 rounded-md border border-slate-700 text-slate-200 w-full sm:w-auto">Clear</button>
+            <div class="ml-auto text-xs text-slate-400 mt-2 sm:mt-0">Est. read time: <span id="readTime">—</span></div>
           </div>
           <div id="summaryBox" class="mt-4 p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-slate-800 h-40 overflow-auto">
             <em class="text-slate-500">Your brief will appear here.</em>
           </div>
-          <div class="mt-3 flex gap-2">
+          <div class="mt-3 flex flex-wrap gap-2">
             <button id="copyBtn" class="px-3 py-1 rounded bg-slate-700 text-sm">Copy</button>
             <button id="notesBtn" class="px-3 py-1 rounded border border-slate-700 text-sm">Create Notes</button>
             <button id="exportBtn" class="px-3 py-1 rounded border border-slate-700 text-sm">Export</button>
@@ -103,7 +129,7 @@
     </section>
 
     <!-- Features -->
-    <section id="features" class="mt-14 grid md:grid-cols-3 gap-6">
+    <section id="features" class="mt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <div class="glass p-6 rounded-2xl fade-in">
         <h3 class="text-lg font-semibold">Research Briefs</h3>
         <p class="text-slate-300 mt-2 text-sm">One-click short summary, evidence bullets with sources, and confidence scores that make reviews fast.</p>
@@ -119,9 +145,9 @@
     </section>
 
     <!-- Workflow -->
-    <section id="workflow" class="">
-      <h3 class="text-2xl font-bold text-center">How it fits into your workflow</h3>
-      <div class="mt-10 grid md:grid-cols-4 gap-6 text-center">
+    <section id="workflow" class="mt-14">
+      <h3 class="text-2xl sm:text-3xl font-bold text-center">How it fits into your workflow</h3>
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
         <div class="glass p-6 rounded-2xl">
           <h4 class="font-semibold">1. Upload</h4>
           <p class="text-slate-300 mt-2 text-sm">Drop in PDFs, transcripts, or notes.</p>
@@ -143,9 +169,9 @@
 
     <!-- Pricing -->
     <section id="pricing" class="mt-20">
-      <h3 class="text-2xl font-bold text-center">Pricing</h3>
+      <h3 class="text-2xl sm:text-3xl font-bold text-center">Pricing</h3>
       <p class="text-center text-slate-400 mt-2">Simple plans for individuals and teams.</p>
-      <div class="mt-10 grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         <div class="glass p-6 rounded-2xl text-center">
           <h4 class="text-lg font-semibold">Free</h4>
           <p class="text-slate-300 mt-2 text-sm">For casual readers & students</p>
@@ -186,8 +212,8 @@
 
     <!-- Testimonials -->
     <section id="testimonials" class="mt-16">
-      <h3 class="text-2xl font-bold text-center">What our users say</h3>
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
+      <h3 class="text-2xl sm:text-3xl font-bold text-center">What our users say</h3>
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <div class="glass p-6 rounded-2xl text-sm">
           <p>“PaperPilot saves me hours every week. I drop research PDFs and get bulletproof briefs for my reports.”</p>
           <p class="mt-3 text-slate-400">— Alex, Research Analyst</p>
